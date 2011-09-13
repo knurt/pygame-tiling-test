@@ -13,7 +13,7 @@ class Hero:
 
 
 	def __init__(self):
-		img = util.load_image('images/rpg_sprite_walk.png')
+		img = util.load_image('rpg_sprite_walk.png')
 		order = range(8)
 		delay = 4  # each phase of the animation lasts 6 frames
 		offset = (0,0)  # no offset
@@ -73,7 +73,7 @@ class Hero:
 		if self.state == Hero.DOWN_WALK:
 			self.__walk_down.show(screen, pos)
 		elif self.state == Hero.UP_WALK:
-			self.__walk_down.show(screen, pos)
+			self.__walk_up.show(screen, pos)
 		elif self.state == Hero.LEFT_WALK:
 			self.__walk_left.show(screen, pos)
 		elif self.state == Hero.RIGHT_WALK:

@@ -31,8 +31,8 @@ class Game(object):
 
 		self.__hero = Hero.Hero();
 		self.__level = LevelMap.LevelMap(
-				'images/leveldata.png',
-				'images/tileset.png',
+				'leveldata.png',
+				'tileset.png',
 				{
 					LevelMap.LevelMap.FLOOR : (0, 0),
 					LevelMap.LevelMap.WALL : (32, 0)
@@ -40,7 +40,7 @@ class Game(object):
 				)
 
 		try:
-			self.__sound = pg.mixer.Sound('sounds/example.wav')
+			self.__sound = pg.mixer.Sound('../sounds/example.wav')
 		except:
 			print('Cannot load sound: sounds/example.wav')
 		

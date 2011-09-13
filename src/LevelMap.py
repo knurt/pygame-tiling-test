@@ -17,7 +17,7 @@ class LevelMap:
 		
 		# There are different filetypes for levels supported.
 		if ending == '.png':
-			lvl_img = pygame.image.load(mapfile)
+			lvl_img = util.load_image(mapfile, True)
 			# prepare for pixel acces:
 			lvl_img = pygame.PixelArray(lvl_img)
 			
