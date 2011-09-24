@@ -16,7 +16,8 @@ class Hero:
 		img = util.load_image('rpg_sprite_walk.png')
 		order = range(8)
 		delay = 4  # each phase of the animation lasts 6 frames
-		offset = (0,0)  # no offset
+		offset = (0,30)  # the "position-point" of the hero is on
+				# his left elbow...
 
 		self.__walk_down = Animation(order)
 		for down_rect in [ (4+i*24, 0, 16, 31) for i in range(8) ]:

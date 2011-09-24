@@ -30,6 +30,7 @@ class Game(object):
 			print('Warning, sound diabled')
 
 		self.__hero = Hero.Hero();
+
 		self.__level = LevelMap.LevelMap(
 				'leveldata.png',
 				'tileset.png',

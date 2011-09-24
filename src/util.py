@@ -1,5 +1,5 @@
 import pygame
-from  os.path import join
+from  os.path import join, abspath
 
 def load_image(image_filename, simple=False, colorkey = (255, 0, 255)):
 	path = join("..","images",image_filename)
@@ -13,7 +13,7 @@ def load_image(image_filename, simple=False, colorkey = (255, 0, 255)):
 			img = img.convert()
 		return img
 	except pygame.error, message:
-		print('Cannot load image: '+path)
+		print('Cannot load image: '+abspath(path))
 		return None
 
 
