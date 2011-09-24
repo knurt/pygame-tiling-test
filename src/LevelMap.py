@@ -23,7 +23,6 @@ class LevelMap:
 			
 			self.width = len(lvl_img)
 			self.height = len(lvl_img[0])
-			print("%d * %d"%(self.height,self.width))
 
 			for row in lvl_img:
 				for color in row:
