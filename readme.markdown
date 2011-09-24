@@ -12,9 +12,7 @@ That's way cool, isn't it?
 TODO:
 =====
 
-* Hero should be visible while standing
 * not beeing able to walk through walls
-* transparency handled correctly
 
 
 Credits to:
