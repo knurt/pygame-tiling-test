@@ -14,7 +14,8 @@ class Hero:
 
 
 	def __init__(self):
-		self.__img = util.load_image('rpg_sprite_walk.png', True)
+		self.__img = util.load_image('rpg_sprite_walk.png', False, None)
+		print self.__img.get_colorkey()
 		order = range(8)
 		delay = 4  # each phase of the animation lasts 6 frames
 		offset = (0,16)  # the "position-point" of the hero is on
