@@ -80,13 +80,13 @@ class Hero:
 		elif self.state == Hero.RIGHT_WALK:
 			self.__walk_right.show(screen, pos)
 		elif self.state == Hero.DOWN_STAND:
-			screen.blit(self.__img, pos, (4, 0, 16, 31))
+			screen.blit(self.__img, (pos[0], pos[1]-16), (4, 0, 16, 31))
 		elif self.state == Hero.UP_STAND:
-			screen.blit(self.__img, pos, (4, 0, 16, 31))
+			screen.blit(self.__img, (pos[0], pos[1]-16), (4, 0, 16, 31))
 		elif self.state == Hero.LEFT_STAND:
-			screen.blit(self.__img, pos, (4, 0, 16, 31))
+			screen.blit(self.__img, (pos[0], pos[1]-16), (4, 0, 16, 31))
 		elif self.state == Hero.RIGHT_STAND:
-			screen.blit(self.__img, pos, (4, 0, 16, 31))
+			screen.blit(self.__img, (pos[0], pos[1]-16), (4, 0, 16, 31))
 
 		# show bounding-box:
 		pygame.gfxdraw.rectangle(screen, self.get_bounds(), (255,0,0))

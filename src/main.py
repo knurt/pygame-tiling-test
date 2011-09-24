@@ -82,6 +82,9 @@ class Game(object):
 			else:
 				self.__hero.stand()
 
+			if pressed_keys[pg.K_ESCAPE]:
+				done = True
+
 			self.__hero.tick()
 
 			### update display
