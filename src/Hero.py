@@ -7,7 +7,6 @@ import pygame.gfxdraw  # for debugging purposes
 
 
 class Hero:
-	# TODO user interaction
 
 	(UP_WALK, UP_STAND, DOWN_WALK, DOWN_STAND,
 			LEFT_WALK, LEFT_STAND, RIGHT_WALK, RIGHT_STAND) = range(8)
@@ -15,7 +14,6 @@ class Hero:
 
 	def __init__(self):
 		self.__img = util.load_image('rpg_sprite_walk.png', False, None)
-		print self.__img.get_colorkey()
 		order = range(8)
 		delay = 4  # each phase of the animation lasts 6 frames
 		offset = (0,16)  # the "position-point" of the hero is on
@@ -71,6 +69,7 @@ class Hero:
 
 	def show(self, screen):
 		pos = (self.x, self.y)
+		offset_pos = (self.x, self.y - 16)
 
 		if self.state == Hero.DOWN_WALK:
 			self.__walk_down.show(screen, pos)
@@ -81,13 +80,13 @@ class Hero:
 		elif self.state == Hero.RIGHT_WALK:
 			self.__walk_right.show(screen, pos)
 		elif self.state == Hero.DOWN_STAND:
-			screen.blit(self.__img, (pos[0], pos[1]-16), (4, 0, 16, 31))
+			screen.blit(self.__img, offset_pos, (4, 0, 16, 31))
 		elif self.state == Hero.UP_STAND:
-			screen.blit(self.__img, (pos[0], pos[1]-16), (4, 32, 16, 31))
+			screen.blit(self.__img, offset_pos, (4, 32, 16, 31))
 		elif self.state == Hero.LEFT_STAND:
-			screen.blit(self.__img, (pos[0], pos[1]-16), (4, 64, 16, 31))
+			screen.blit(self.__img, offset_pos, (4, 64, 16, 31))
 		elif self.state == Hero.RIGHT_STAND:
-			screen.blit(self.__img, (pos[0], pos[1]-16), (4, 96, 16, 31))
+			screen.blit(self.__img, offset_pos, (4, 96, 16, 31))
 
 		# show bounding-box:
 		pygame.gfxdraw.rectangle(screen, self.get_bounds(), (255,0,0))

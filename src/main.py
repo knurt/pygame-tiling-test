@@ -8,7 +8,7 @@
 # rein koennen? ctype zu klompiziert?
 
 import pygame as pg
-import pygame.locals  # ???
+import pygame.locals  # various constants
 
 import util
 import Hero
@@ -23,7 +23,7 @@ class Game(object):
 
 		pg.init()
 		self.__screen = pg.display.set_mode((800, 640))
-		pg.display.set_caption('Ich bin der Titel')
+		pg.display.set_caption('I\'m the Title')
 		pg.mouse.set_visible(0)
 
 		if not pg.mixer:
