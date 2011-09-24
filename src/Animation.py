@@ -26,11 +26,14 @@ class Animation:
 		curr_img = self.__frames[ci].image
 		curr_rect = self.__frames[ci].rect
 
-		curr_rect = (
-				self.__frames[ci].offset[0] + curr_rect[0],
-				self.__frames[ci].offset[1] + curr_rect[1],
-				curr_rect[2],
-				curr_rect[3])
+#		curr_rect = (
+#				self.__frames[ci].offset[0] + curr_rect[0],
+#				self.__frames[ci].offset[1] + curr_rect[1],
+#				curr_rect[2],
+#				curr_rect[3])
+		pos = (
+				pos[0] - self.__frames[ci].offset[0],
+				pos[1] - self.__frames[ci].offset[1])
 
 		surface.blit(curr_img, pos, curr_rect)
 

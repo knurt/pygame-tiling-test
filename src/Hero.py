@@ -3,6 +3,7 @@
 
 import util
 from Animation import *
+import pygame.gfxdraw  # for debugging purposes
 
 
 class Hero:
@@ -13,27 +14,27 @@ class Hero:
 
 
 	def __init__(self):
-		img = util.load_image('rpg_sprite_walk.png')
+		self.__img = util.load_image('rpg_sprite_walk.png')
 		order = range(8)
 		delay = 4  # each phase of the animation lasts 6 frames
-		offset = (0,30)  # the "position-point" of the hero is on
+		offset = (0,16)  # the "position-point" of the hero is on
 				# his left elbow...
 
 		self.__walk_down = Animation(order)
 		for down_rect in [ (4+i*24, 0, 16, 31) for i in range(8) ]:
-			self.__walk_down.add_frame(img, down_rect, delay, offset)
+			self.__walk_down.add_frame(self.__img, down_rect, delay, offset)
 
 		self.__walk_up = Animation(order)
 		for up_rect in [ (4+i*24, 32, 16, 31) for i in range(8) ]:
-			self.__walk_up.add_frame(img, up_rect, delay, offset)
+			self.__walk_up.add_frame(self.__img, up_rect, delay, offset)
 
 		self.__walk_left = Animation(order)
 		for left_rect in [ (4+i*24, 64, 16, 31) for i in range(8) ]:
-			self.__walk_left.add_frame(img, left_rect, delay, offset)
+			self.__walk_left.add_frame(self.__img, left_rect, delay, offset)
 
 		self.__walk_right = Animation(order)
 		for right_rect in [ (4+i*24, 96, 16, 31) for i in range(8) ]:
-			self.__walk_right.add_frame(img, right_rect, delay, offset)
+			self.__walk_right.add_frame(self.__img, right_rect, delay, offset)
 
 		# initial values
 		self.state = self.DOWN_WALK
@@ -64,8 +65,7 @@ class Hero:
 
 
 	def get_bounds(self):
-		# TODO!!!
-		return (self.x, self.y, self.x+32, self.y+32)
+		return (self.x, self.y, 16, 16)
 
 
 	def show(self, screen):
@@ -79,14 +79,18 @@ class Hero:
 			self.__walk_left.show(screen, pos)
 		elif self.state == Hero.RIGHT_WALK:
 			self.__walk_right.show(screen, pos)
-		elif self.state == Hero.DOWN_WALK:
-			screen.blit(img, pos, (4, 0, 16, 31))
-		elif self.state == Hero.UP_WALK:
-			screen.blit(img, pos, (4, 0, 16, 31))
-		elif self.state == Hero.LEFT_WALK:
-			screen.blit(img, pos, (4, 0, 16, 31))
-		elif self.state == Hero.RIGHT_WALK:
-			screen.blit(img, pos, (4, 0, 16, 31))
+		elif self.state == Hero.DOWN_STAND:
+			screen.blit(self.__img, pos, (4, 0, 16, 31))
+		elif self.state == Hero.UP_STAND:
+			screen.blit(self.__img, pos, (4, 0, 16, 31))
+		elif self.state == Hero.LEFT_STAND:
+			screen.blit(self.__img, pos, (4, 0, 16, 31))
+		elif self.state == Hero.RIGHT_STAND:
+			screen.blit(self.__img, pos, (4, 0, 16, 31))
+
+		# show bounding-box:
+		pygame.gfxdraw.rectangle(screen, self.get_bounds(), (255,0,0))
+
 
 
 		# TODO other states

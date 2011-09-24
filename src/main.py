@@ -8,7 +8,7 @@
 # rein koennen? ctype zu klompiziert?
 
 import pygame as pg
-import pygame.locals
+import pygame.locals  # ???
 
 import util
 import Hero
