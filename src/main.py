@@ -63,7 +63,6 @@ class Game(object):
 		# Counters for frames that took to long
 		good = 0
 		bad = 0
-		last_pos_string = ""
 
 		while not done:
 
@@ -93,15 +92,7 @@ class Game(object):
 
 			### update display
 			self.__level.show(self.__screen, (self.offset, self.offset))
-
 			self.__hero.show(self.__screen)
-
-			# DEBUG
-			pos_string = self.__level.pixel_pos_to_tile_pos((self.__hero.x-80, self.__hero.y-80))
-			if last_pos_string != pos_string:
-				print pos_string
-			last_pos_string = pos_string
-
 			pg.display.flip()
 			
 			# framerate regulation (1000/40 = 25 fps)
