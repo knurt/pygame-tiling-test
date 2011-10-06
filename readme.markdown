@@ -13,6 +13,7 @@ TODO:
 =====
 
 * not beeing able to walk through walls
+* PEP 8 style
 
 
 Credits to:
