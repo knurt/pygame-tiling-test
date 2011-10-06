@@ -1,7 +1,6 @@
 # Problem: An Animation object doesn't make any sense without frames
 # so maybe they should be commited in the constructor.
 
-from Animationframe import *
 
 class Animation:
 	
@@ -40,4 +39,21 @@ class Animation:
 			self.__curr_delay = self.__frames[ci].duration
 
 		self.__curr_index = ci
+		
+		
+		
+class Animationframe:
+	
+	def __init__(self, image, rect, duration, offset):
+		"""
+		image: of the type 'surface'
+		rect: rectangle defining the section of the image displayed
+		duration: how many frames the animationstate lasts
+		offset: x/y-tuple, defines offset
+		"""
+		self.image = image
+		self.rect = rect
+		self.duration = duration
+		self.offset = offset
 
+		

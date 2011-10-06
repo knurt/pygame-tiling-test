@@ -10,9 +10,9 @@
 import pygame as pg
 import pygame.locals  # various constants
 
-import util
-import Hero
-import LevelMap
+from game import util
+from game import Hero
+from game import LevelMap
 
 
 class Game(object):
