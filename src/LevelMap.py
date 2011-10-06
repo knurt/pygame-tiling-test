@@ -6,11 +6,13 @@ import pygame
 class LevelMap:
 	VOID, WALL, FLOOR = range(3)
 
-	def __init__(self, mapfile, tilefile, tilemapping):
+	def __init__(self, mapfile, tilefile,
+			tilemapping, tilesize):
+		self.tilesize = tilesize
 
 		self.table = array.array('b')
-		self.width = 0
-		self.height = 0
+		self.mapwidth = 0
+		self.mapheight = 0
 
 		# In my opinion the name should be "splittext".
 		_, ending = os.path.splitext(mapfile)
@@ -21,8 +23,8 @@ class LevelMap:
 			# prepare for pixel acces:
 			lvl_img = pygame.PixelArray(lvl_img)
 			
-			self.width = len(lvl_img)
-			self.height = len(lvl_img[0])
+			self.mapwidth = len(lvl_img)
+			self.mapheight = len(lvl_img[0])
 
 			for row in lvl_img:
 				for color in row:
@@ -39,14 +41,26 @@ class LevelMap:
 		# Prepare tileset
 		self.__tileset = util.load_image(tilefile)
 		self.__tilemapping = tilemapping
+	
+
+	def pixel_pos_to_tile_pos(self, pixel_pos):
+		# Coordinates of the tile the pixel is on:
+		tile_x = pixel_pos[0] / self.tilesize
+		tile_y = pixel_pos[1] / self.tilesize
+
+		# Distances in x and y dimension from the grid:
+		offset_x = pixel_pos[0] % self.tilesize
+		offset_y = pixel_pos[1] % self.tilesize
+
+		return (tile_x, tile_y), (offset_x, offset_y)
 
 
 	def show(self, screen, offset):
 		TILESIZE = 32
 
 		index = 0
-		for x in range(self.width):
-			for y in range(self.height):
+		for x in range(self.mapwidth):
+			for y in range(self.mapheight):
 				pos = self.__tilemapping[self.table[index]]
 				screen.blit(
 						self.__tileset,

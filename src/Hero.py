@@ -37,8 +37,8 @@ class Hero:
 
 		# initial values
 		self.state = self.DOWN_WALK
-		self.x = 60
-		self.y = 60
+		self.x = 0
+		self.y = 0
 
 	
 	def stand(self):
@@ -87,7 +87,8 @@ class Hero:
 			screen.blit(self.__img, offset_pos, (4, 64, 16, 31))
 		elif self.state == Hero.RIGHT_STAND:
 			screen.blit(self.__img, offset_pos, (4, 96, 16, 31))
-
+        
+		# DEBUG
 		# show bounding-box:
 		pygame.gfxdraw.rectangle(screen, self.get_bounds(), (255,0,0))
 

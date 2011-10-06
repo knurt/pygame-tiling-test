@@ -37,7 +37,8 @@ class Game(object):
 				{
 					LevelMap.LevelMap.FLOOR : (0, 0),
 					LevelMap.LevelMap.WALL : (32, 0)
-					}
+					},
+				self.tilesize
 				)
 
 		try:
@@ -50,16 +51,19 @@ class Game(object):
 		bg.fill((90, 90, 120))
 		self__background = bg
 
-		self.__hero_pos = (80+32+2, 80+32+2)
+		self.__hero.x = 80+4*32+5
+		self.__hero.y = 80+3*32+5
 
 
 	def loop(self):
 		done = False
 		time = pg.time.get_ticks()
 		
+		# DEBUG
 		# Counters for frames that took to long
 		good = 0
 		bad = 0
+		last_pos_string = ""
 
 		while not done:
 
@@ -91,6 +95,13 @@ class Game(object):
 			self.__level.show(self.__screen, (self.offset, self.offset))
 
 			self.__hero.show(self.__screen)
+
+			# DEBUG
+			pos_string = self.__level.pixel_pos_to_tile_pos((self.__hero.x-80, self.__hero.y-80))
+			if last_pos_string != pos_string:
+				print pos_string
+			last_pos_string = pos_string
+
 			pg.display.flip()
 			
 			# framerate regulation (1000/40 = 25 fps)
