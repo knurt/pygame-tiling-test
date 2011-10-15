@@ -6,8 +6,15 @@
 #
 # TODO: Wie macht man ordentliche leere 2-Dim-Matrizen, wo die Leveldaten
 # rein koennen? ctype zu klompiziert?
+#
+# Coordinates can be represented as
+# * two variables/parameter (x and y)
+# * a list
+# * a tuple
+# * a class
+# I should stick to a consistent scheme.
 
-import pygame as pg
+import pygame as pg  # maybe i should leave the "as pg" be...
 import pygame.locals  # various constants
 
 from game import util
@@ -29,30 +36,28 @@ class Game(object):
         if not pg.mixer:
             print('Warning, sound diabled')
 
-        self.__hero = Hero.Hero();
-
         self.__level = LevelMap.LevelMap(
                 'leveldata.png',
                 'tileset.png',
                 {
                     LevelMap.LevelMap.FLOOR : (0, 0),
-                    LevelMap.LevelMap.WALL : (32, 0)
-                    },
-                self.tilesize
-                )
+                    LevelMap.LevelMap.WALL : (32, 0)},
+                self.tilesize)
 
         try:
             self.__sound = pg.mixer.Sound('../sounds/example.wav')
         except:
             print('Cannot load sound: sounds/example.wav')
+
+        self.__hero = Hero.Hero(self.__level);
         
         bg = pg.Surface(self.__screen.get_size())
         bg = bg.convert()
         bg.fill((90, 90, 120))
         self__background = bg
 
-        self.__hero.x = 80+4*32+5
-        self.__hero.y = 80+3*32+5
+        self.__hero.x = 4*32+5
+        self.__hero.y = 3*32+5
 
 
     def loop(self):
@@ -92,11 +97,11 @@ class Game(object):
 
             ### update display
             self.__level.show(self.__screen, (self.offset, self.offset))
-            self.__hero.show(self.__screen)
+            self.__hero.show(self.__screen, (self.offset, self.offset))
             pg.display.flip()
             
-            # framerate regulation (1000/40 = 25 fps)
-            frametime = 50
+            # framerate regulation (e.g. 1000ms/40mspf = 25 fps)
+            frametime = 50  # milliseconds per frame
             oldtime = time
             time = pg.time.get_ticks()
             diff = time - oldtime

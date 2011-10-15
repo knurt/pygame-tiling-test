@@ -37,26 +37,36 @@ class LevelMap:
         else:
             raise IOError("Error: File suffix '%s'\
                     not supported for map-data." % ending)
+            sys.exit(0)
 
         # Prepare tileset
         self.__tileset = util.load_image(tilefile)
         self.__tilemapping = tilemapping
     
 
-    def pixel_pos_to_tile_pos(self, pixel_pos):
+    def pixel_pos_to_tile_pos(self, pos):
         # Coordinates of the tile the pixel is on:
-        tile_x = pixel_pos[0] / self.tilesize
-        tile_y = pixel_pos[1] / self.tilesize
+        tile_x = pos[0] / self.tilesize
+        tile_y = pos[1] / self.tilesize
 
+        return (tile_x, tile_y)
+
+
+    def pixel_pos_to_tile_offset(self, pos):
         # Distances in x and y dimension from the grid:
-        offset_x = pixel_pos[0] % self.tilesize
-        offset_y = pixel_pos[1] % self.tilesize
+        offset_x = pos[0] % self.tilesize
+        offset_y = pos[1] % self.tilesize
 
-        return (tile_x, tile_y), (offset_x, offset_y)
+        return (offset_x, offset_y)
+
+
+    def get_tile_type(self, pos):
+        index = pos[0]*self.mapheight + pos[1]
+        return self.table[index]
 
 
     def show(self, screen, offset):
-        TILESIZE = 32
+        TILESIZE = 32  # TODO There is already a member for that
 
         index = 0
         for x in range(self.mapwidth):
