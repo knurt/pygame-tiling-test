@@ -2,6 +2,7 @@ import os.path
 import util
 import array
 import pygame
+from util import Vector
 
 class LevelMap:
     VOID, WALL, FLOOR = range(3)
@@ -46,22 +47,22 @@ class LevelMap:
 
     def pixel_pos_to_tile_pos(self, pos):
         # Coordinates of the tile the pixel is on:
-        tile_x = pos[0] / self.tilesize
-        tile_y = pos[1] / self.tilesize
+        tile_x = pos.x / self.tilesize
+        tile_y = pos.y / self.tilesize
 
-        return (tile_x, tile_y)
+        return Vector(tile_x, tile_y)
 
 
     def pixel_pos_to_tile_offset(self, pos):
         # Distances in x and y dimension from the grid:
-        offset_x = pos[0] % self.tilesize
-        offset_y = pos[1] % self.tilesize
+        offset_x = pos.x % self.tilesize
+        offset_y = pos.y % self.tilesize
 
-        return (offset_x, offset_y)
+        return Vector(offset_x, offset_y)
 
 
     def get_tile_type(self, pos):
-        index = pos[0]*self.mapheight + pos[1]
+        index = pos.x*self.mapheight + pos.y
         return self.table[index]
 
 
@@ -74,8 +75,10 @@ class LevelMap:
                 pos = self.__tilemapping[self.table[index]]
                 screen.blit(
                         self.__tileset,
-                        (x*TILESIZE + offset[0], y*TILESIZE + offset[1]),
-                        (pos[0], pos[1], TILESIZE, TILESIZE))
+                        # destination:
+                        (x*TILESIZE + offset.y, y*TILESIZE + offset.x),
+                        # clipping:
+                        (pos.x, pos.y, TILESIZE, TILESIZE))
                 index += 1
 
 

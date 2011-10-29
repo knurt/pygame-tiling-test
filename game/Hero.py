@@ -2,9 +2,9 @@
 # This Class represents the human-controllable hero of the game.
 
 import util
+from util import Vector
 import LevelMap
-from Animation import *
-import pygame.gfxdraw  # for debugging purposes
+from animation import *
 
 
 class Hero:
@@ -14,11 +14,11 @@ class Hero:
     (UP_WALK, UP_STAND, DOWN_WALK, DOWN_STAND,
             LEFT_WALK, LEFT_STAND, RIGHT_WALK, RIGHT_STAND) = range(8)
     # directions:
-    NO_DIRECTION = (0,0)
-    LEFT         = (-1,0)
-    RIGHT        = (1,0)
-    UP           = (0,-1)
-    DOWN         = (0,1)
+    NO_DIRECTION = Vector(0,0)
+    LEFT         = Vector(-1,0)
+    RIGHT        = Vector(1,0)
+    UP           = Vector(0,-1)
+    DOWN         = Vector(0,1)
 
     def __init__(self, levelmap):
         self.levelmap = levelmap
@@ -26,7 +26,7 @@ class Hero:
         self.__img = util.load_image('rpg_sprite_walk.png', False, None)
         order = range(8)
         delay = 4  # each phase of the animation lasts 6 frames
-        offset = (0,16)  # the "position-point" of the hero is on
+        offset = Vector(0,16)  # the "position-point" of the hero is on
                 # his left elbow...
         self.size = 16
 
@@ -48,8 +48,8 @@ class Hero:
 
         # initial values
         self.state = self.DOWN_WALK
-        self.x = 0  # Coordinates are relative to the map - not to the screen!
-        self.y = 0
+        # Coordinates are relative to the map - not to the screen!
+        self.pos = Vector(0,0)
         self.speed = 2
 
     
@@ -80,30 +80,32 @@ class Hero:
                 }[self.state]
                 
         corners = self.get_corners(direction)
-        speed_x = self.speed * direction[0]
-        speed_y = self.speed * direction[1]
+        
+        delta = util.vec_mult(direction, self.speed)
+        
         dest_tiles = [self.levelmap.pixel_pos_to_tile_pos(
-            (c[0]+speed_x, c[1]+speed_y)) for c in corners]
+            util.vec_add(c, delta)) for c in corners]
 
-        if reduce(lambda a, b: a and b,
-            [self.levelmap.get_tile_type(t) == LevelMap.LevelMap.FLOOR\
-                    for t in dest_tiles]):
-            self.x += speed_x
-            self.y += speed_y
+        tiletypes =\
+                [self.levelmap.get_tile_type(t) == LevelMap.LevelMap.FLOOR
+                for t in dest_tiles]
+
+        if reduce(lambda a, b: a and b, tiletypes):
+            self.pos.add(delta)
         else:
             self.move_to_edge(direction)
 
 
     def get_bounds(self):
         # Maybe the use of this function should be replaced by "get_corners"
-        return (self.x, self.y, self.size, self.size)
+        return (self.pos.x, self.pos.y, self.size, self.size)
 
 
     def get_corners(self, direction):
-        upper_left  = (self.x, self.y)
-        upper_right = (self.x + self.size, self.y)
-        lower_left  = (self.x, self.y + self.size)
-        lower_right = (self.x + self.size, self.y + self.size)
+        upper_left  = self.pos
+        upper_right = util.vec_add(self.pos, Vector(self.size-1, 0))
+        lower_left  = util.vec_add(self.pos, Vector(0, self.size-1))
+        lower_right = util.vec_add(self.pos, Vector(self.size-1, self.size-1))
         
         if direction == Hero.LEFT:
             return [upper_left, lower_left]
@@ -118,21 +120,21 @@ class Hero:
 
 
     def move_to_edge(self, direction):
-        distance_left = self.x % self.levelmap.tilesize
-        distance_up = self.y % self.levelmap.tilesize
+        distance_left = self.pos.x % self.levelmap.tilesize
+        distance_up = self.pos.y % self.levelmap.tilesize
         if direction == Hero.LEFT:
-            self.x -= distance_left
+            self.pos.x -= distance_left
         elif direction == Hero.RIGHT:
-            self.x += (self.levelmap.tilesize - self.size - distance_left)
+            self.pos.x += (self.levelmap.tilesize - self.size - distance_left)
         elif direction == Hero.UP:
-            self.y -= distance_up
+            self.pos.y -= distance_up
         elif direction == Hero.DOWN:
-            self.y += (self.levelmap.tilesize - self.size - distance_up)
+            self.pos.y += (self.levelmap.tilesize - self.size - distance_up)
         
 
     def show(self, screen, offset):
-        pos = (self.x + offset[0], self.y + offset[1])
-        offset_pos = (pos[0], pos[1] - 16)
+        pos = util.vec_add(self.pos, offset)
+        offset_pos = (pos.x, pos.y - 16)
 
         if self.state == Hero.DOWN_WALK:
             self.__walk_down.show(screen, pos)
@@ -151,10 +153,3 @@ class Hero:
         elif self.state == Hero.RIGHT_STAND:
             screen.blit(self.__img, offset_pos, (4, 96, 16, 31))
         
-        # DEBUG
-        # show bounding-box:
-        pygame.gfxdraw.rectangle(
-                screen,
-                (pos[0], pos[1], self.size, self.size),
-                (255,0,0))
-

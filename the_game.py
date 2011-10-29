@@ -18,6 +18,7 @@ import pygame as pg  # maybe i should leave the "as pg" be...
 import pygame.locals  # various constants
 
 from game import util
+from game.util import Vector
 from game import Hero
 from game import LevelMap
 
@@ -25,7 +26,7 @@ from game import LevelMap
 class Game(object):
 
     def __init__(self):
-        self.offset = 80  # Border
+        self.offset = Vector(80, 80)  # Border
         self.tilesize = 32
 
         pg.init()
@@ -40,8 +41,8 @@ class Game(object):
                 'leveldata.png',
                 'tileset.png',
                 {
-                    LevelMap.LevelMap.FLOOR : (0, 0),
-                    LevelMap.LevelMap.WALL : (32, 0)},
+                    LevelMap.LevelMap.FLOOR : Vector(0, 0),
+                    LevelMap.LevelMap.WALL : Vector(32, 0)},
                 self.tilesize)
 
         try:
@@ -56,8 +57,7 @@ class Game(object):
         bg.fill((90, 90, 120))
         self__background = bg
 
-        self.__hero.x = 4*32+5
-        self.__hero.y = 3*32+5
+        self.__hero.pos = Vector(4*32+5, 3*32+5)
 
 
     def loop(self):
@@ -96,8 +96,8 @@ class Game(object):
             self.__hero.tick()
 
             ### update display
-            self.__level.show(self.__screen, (self.offset, self.offset))
-            self.__hero.show(self.__screen, (self.offset, self.offset))
+            self.__level.show(self.__screen, self.offset)
+            self.__hero.show(self.__screen, self.offset)
             pg.display.flip()
             
             # framerate regulation (e.g. 1000ms/40mspf = 25 fps)
@@ -117,11 +117,7 @@ class Game(object):
                 bad = 0
 
 
-def main():
+if __name__ == '__main__':
     game = Game()
     game.loop()
-
-
-if __name__ == '__main__':
-    main()
 
