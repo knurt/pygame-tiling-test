@@ -1,18 +1,4 @@
 #!/usr/bin/env python
-#
-# Ein simples Tile-basiertes "Spiel" ohne Ziel.
-# Ich hab es geschrieben um spaeter mal ein Tutorial dadrueber
-# zu machen.
-#
-# TODO: Wie macht man ordentliche leere 2-Dim-Matrizen, wo die Leveldaten
-# rein koennen? ctype zu klompiziert?
-#
-# Coordinates can be represented as
-# * two variables/parameter (x and y)
-# * a list
-# * a tuple
-# * a class
-# I should stick to a consistent scheme.
 
 import pygame as pg  # maybe i should leave the "as pg" be...
 import pygame.locals  # various constants
