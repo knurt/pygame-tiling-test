@@ -35,16 +35,17 @@ class Game(object):
             self.__sound = pg.mixer.Sound('../sounds/example.wav')
         except:
             print('Cannot load sound: sounds/example.wav')
-
-        self.__hero = Hero.Hero('rpg_sprite_walk_other_color.png', self.__level)
+            
+        self.__player1 = Hero.Hero('rpg_sprite_walk.png', self.__level)
+        self.__player2 = Hero.Hero('rpg_sprite_walk_other_color.png', self.__level)
 
         bg = pg.Surface(self.__screen.get_size())
         bg = bg.convert()
         bg.fill((90, 90, 120))
         self__background = bg
 
-        self.__hero.pos = Vector(4 * 32 + 5, 3 * 32 + 5)
-
+        self.__player1.pos = Vector(4 * 32 + 5, 3 * 32 + 5)
+        self.__player2.pos = Vector(5 * 32 + 5, 3 * 32 + 5)
 
     def loop(self):
         done = False
@@ -66,24 +67,37 @@ class Game(object):
 
             ### game logic
             if pressed_keys[pg.K_DOWN]:
-                self.__hero.state = Hero.Hero.DOWN_WALK
+                self.__player1.state = Hero.Hero.DOWN_WALK
             elif pressed_keys[pg.K_UP]:
-                self.__hero.state = Hero.Hero.UP_WALK
+                self.__player1.state = Hero.Hero.UP_WALK
             elif pressed_keys[pg.K_LEFT]:
-                self.__hero.state = Hero.Hero.LEFT_WALK
+                self.__player1.state = Hero.Hero.LEFT_WALK
             elif pressed_keys[pg.K_RIGHT]:
-                self.__hero.state = Hero.Hero.RIGHT_WALK
+                self.__player1.state = Hero.Hero.RIGHT_WALK
             else:
-                self.__hero.stand()
+                self.__player1.stand()
+
+            if pressed_keys[pg.K_s]:
+                self.__player2.state = Hero.Hero.DOWN_WALK
+            elif pressed_keys[pg.K_w]:
+                self.__player2.state = Hero.Hero.UP_WALK
+            elif pressed_keys[pg.K_a]:
+                self.__player2.state = Hero.Hero.LEFT_WALK
+            elif pressed_keys[pg.K_d]:
+                self.__player2.state = Hero.Hero.RIGHT_WALK
+            else:
+                self.__player2.stand()
 
             if pressed_keys[pg.K_ESCAPE]:
                 done = True
 
-            self.__hero.tick()
+            self.__player1.tick()
+            self.__player2.tick()
 
             ### update display
             self.__level.show(self.__screen, self.offset)
-            self.__hero.show(self.__screen, self.offset)
+            self.__player1.show(self.__screen, self.offset)
+            self.__player2.show(self.__screen, self.offset)
             pg.display.flip()
 
             # framerate regulation (e.g. 1000ms/40mspf = 25 fps)
