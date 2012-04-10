@@ -20,10 +20,10 @@ class Hero:
     UP           = Vector(0,-1)
     DOWN         = Vector(0,1)
 
-    def __init__(self, levelmap):
+    def __init__(self, image_filename, levelmap):
         self.levelmap = levelmap
 
-        self.__img = util.load_image('rpg_sprite_walk.png', False, None)
+        self.__img = util.load_image(image_filename, False, None)
         order = range(8)
         delay = 4  # each phase of the animation lasts 6 frames
         offset = Vector(0,16)  # the "position-point" of the hero is on

@@ -27,8 +27,8 @@ class Game(object):
                 'leveldata.png',
                 'tileset.png',
                 {
-                    LevelMap.LevelMap.FLOOR : Vector(0, 0),
-                    LevelMap.LevelMap.WALL : Vector(32, 0)},
+                    LevelMap.LevelMap.FLOOR: Vector(0, 0),
+                    LevelMap.LevelMap.WALL: Vector(32, 0)},
                 self.tilesize)
 
         try:
@@ -36,20 +36,20 @@ class Game(object):
         except:
             print('Cannot load sound: sounds/example.wav')
 
-        self.__hero = Hero.Hero(self.__level);
-        
+        self.__hero = Hero.Hero('rpg_sprite_walk_other_color.png', self.__level)
+
         bg = pg.Surface(self.__screen.get_size())
         bg = bg.convert()
         bg.fill((90, 90, 120))
         self__background = bg
 
-        self.__hero.pos = Vector(4*32+5, 3*32+5)
+        self.__hero.pos = Vector(4 * 32 + 5, 3 * 32 + 5)
 
 
     def loop(self):
         done = False
         time = pg.time.get_ticks()
-        
+
         # DEBUG
         # Counters for frames that took to long
         good = 0
@@ -85,7 +85,7 @@ class Game(object):
             self.__level.show(self.__screen, self.offset)
             self.__hero.show(self.__screen, self.offset)
             pg.display.flip()
-            
+
             # framerate regulation (e.g. 1000ms/40mspf = 25 fps)
             frametime = 50  # milliseconds per frame
             oldtime = time
@@ -96,9 +96,9 @@ class Game(object):
             else:
                 pg.time.delay(frametime - diff)
                 good += 1
-            if good+bad > 9999:
-                print "good ",good
-                print "bad  ",bad
+            if good + bad > 9999:
+                print "good ", good
+                print "bad  ", bad
                 good = 0
                 bad = 0
 
@@ -106,4 +106,3 @@ class Game(object):
 if __name__ == '__main__':
     game = Game()
     game.loop()
-
